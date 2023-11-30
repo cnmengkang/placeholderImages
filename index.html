@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <style>
+    * {
+      padding: 0;
+      margin: 0;
+    }
+    .wrapper {
+      box-sizing: border-box;
+      width: 100%;
+      padding: 15px;
+    }
+    input {
+      box-sizing: border-box;
+      border: 1px solid #000;
+      outline: none;
+      padding: 10px;
+      border-radius: 5px;
+      font-size: 16px;
+      width: 100%;
+    }
+    label {
+      display: block;
+      margin-bottom: 10px;
+    }
+    #width,
+    #height,
+    #bgColor,
+    #textColor {
+      width: 50%;
+    }
+    button {
+      padding: 10px;
+      background-color: #83a2ff;
+      border: none;
+      outline: none;
+      color: #fff;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    iframe {
+      width: 100%;
+      height: 100%;
+    }
+    .enter .left iframe .wrap .left {
+      display: none;
+    }
+    .subBtn {
+      margin: 15px 0px;
+    }
+    .left,
+    .right {
+      width: 50%;
+    }
+    .flex {
+      display: flex;
+      gap: 15px;
+    }
+    .justify-content-center {
+      justify-content: center;
+    }
+    .align-item-center {
+      align-items: center;
+    }
+  </style>
+  <body>
+    <div class="wrapper">
+      <div class="placeholder flex justify-content-center">
+        <canvas id="canvas" width="300" height="200"></canvas>
+      </div>
+      <div class="enter flex justify-content-center">
+        <!-- <div class="left">
+          <iframe src="https://colorhunt.co/" frameborder="0"></iframe>
+        </div> -->
+        <div class="right">
+          <label for="width">宽度x高度</label>
+          <div class="flex align-item-center">
+            <input type="text" value="300" name="宽" id="width" maxlength="5" />
+            <span>X</span>
+            <input
+              type="text"
+              value="200"
+              name="高"
+              id="height"
+              maxlength="5"
+            />
+          </div>
+          <label for="bgColor">背景颜色&文本颜色</label>
+          <div class="flex align-item-center">
+            <input
+              type="text"
+              id="bgColor"
+              name="背景颜色"
+              size="6"
+              maxlength="6"
+              value="83A2FF"
+            />
+            <span>&</span>
+            <input
+              type="text"
+              id="textColor"
+              name="文本颜色"
+              value="fff"
+              size="6"
+              maxlength="6"
+            />
+          </div>
+          <div class="downImages">
+            <label for="text"> 图片名称(包含下载名称) </label>
+            <input type="text" value="text" name="文本" id="text" />
+          </div>
+        </div>
+      </div>
+      <div class="subBtn flex justify-content-center">
+        <button type="button" id="generate" onclick="GeneratePictures()">
+          生成图片
+        </button>
+        <button type="button" id="downloadImage" onclick="downloadImage()">
+          下载图片
+        </button>
+      </div>
+    </div>
+  </body>
+</html>
+<script>
+  GeneratePictures();
+  //点击获取输入值
+  function GeneratePictures() {
+    let width = document.getElementById("width").value;
+    let height = document.getElementById("height").value;
+    let bgColor = document.getElementById("bgColor").value;
+    let textColor = document.getElementById("textColor").value;
+    let text = document.getElementById("text").value;
+    drawImage({
+      width: width,
+      height: height,
+      bgColor: bgColor,
+      textColor: textColor,
+      text: text,
+    });
+  }
+  // 绘制图片
+  function drawImage(options) {
+    console.log(options);
+    let width = options.width;
+    let height = options.height;
+    let bgColor = options.bgColor;
+    let textColor = options.textColor;
+    let text = options.text;
+    // 获取元素
+    var canvas = document.querySelector("#canvas");
+    //获得 2d 上下文对象
+    var ctx = canvas.getContext("2d");
+    // 设置宽高
+    ctx.canvas.width = width;
+    ctx.canvas.height = height;
+    ctx.fillStyle = `#${bgColor}`; //绘制背景颜色
+    ctx.fillRect(0, 0, width, height); //绘制背景宽高
+    // 绘制文本
+    ctx.fillStyle = `#${textColor}`;
+    ctx.font = "24px Arial";
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
+    ctx.fillText(`${width}x${height}-${text}`, width / 2, height / 2);
+    // 把图片尺寸插入到图片中，文本不变
+  }
+  //   下载图片
+  function downloadImage() {
+    let text = document.getElementById("text").value;
+    var canvas = document.querySelector("#canvas");
+    var dataURL = canvas.toDataURL("image/png/jpg");
+    var downloadLink = document.createElement("a");
+    downloadLink.setAttribute("href", dataURL);
+    downloadLink.setAttribute("download", text);
+    downloadLink.click();
+  }
+</script>
