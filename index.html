@@ -96,14 +96,14 @@
               name="背景颜色"
               size="6"
               maxlength="6"
-              value="#000"
+              value="000"
             />
             <span>&</span>
             <input
               type="text"
               id="textColor"
               name="文本颜色"
-              value="#fff"
+              value="fff"
               size="6"
               maxlength="6"
             />
@@ -186,10 +186,10 @@
     // 设置宽高
     ctx.canvas.width = width;
     ctx.canvas.height = height;
-    ctx.fillStyle = bgColor; //绘制背景颜色
+    ctx.fillStyle = `#${bgColor}`; //绘制背景颜色
     ctx.fillRect(0, 0, width, height); //绘制背景宽高
     // 绘制文本
-    ctx.fillStyle = textColor;
+    ctx.fillStyle = `#${textColor}`;
     let fontSize = (width / 2 + height / 2) / 10;
     ctx.font = `${fontSize}px Arial`;
     ctx.textAlign = "center";
